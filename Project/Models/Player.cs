@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using CastleGrimtol.Project.Interfaces;
+using Misterybus.Project.Interfaces;
 
-namespace CastleGrimtol.Project.Models
+namespace Misterybus.Project.Models
 {
-    public class Player : IPlayer
-    {
-
-    }
+  public class Player : IPlayer
+  {
+    public string PlayerName { get; set; }
+    public List<Item> Inventory { get; set; }
+  }
 }
