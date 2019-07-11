@@ -55,8 +55,8 @@ namespace Misterybus.Project
       //TODO this room gets it's own type that inherits from room. call it "fakewinroom" or whatever
       Room doors = new Room("Hall of Doors", "A small room with numerous doors...");
       // TODO this room gets it's own type that inherits from room. call it "winroom" or whatever
-      Room slide = new Room("The Slide", "You're in a room with a slide that goes...");
-      // TODO this room only appears when you connect phone and cord to turn button on, which you have to push
+      //Room slide = new Room("The Slide", "You're in a room with a slide that goes...");
+      // TODO don't need this room because, when you push button the endgame script runs. move it to that function.
       #endregion
 
       #region setup items
@@ -70,7 +70,8 @@ namespace Misterybus.Project
       #endregion
 
       #region setup & establish exits
-      bus.Exits.Add("north", video);
+      //bus.Exits.Add("north", video);
+      //this is created when person removes shade
       bus.Exits.Add("east", doors);
       bus.Exits.Add("south", hq);
       bus.Exits.Add("west", hall);
@@ -78,7 +79,7 @@ namespace Misterybus.Project
       video.Exits.Add("south", bus);
       hq.Exits.Add("north", bus);
       doors.Exits.Add("west", bus);
-      doors.Exits.Add("north", slide);
+      //doors.Exits.Add("north", slide);
       #endregion
 
       #region establish items
