@@ -12,8 +12,8 @@ namespace Misterybus
       Console.Clear();
             System.Console.WriteLine("Welcome to the Galaxy. What is your name?");
             string name = Console.ReadLine();
-            App app = new App(name);
-            app.Run();
+            GameService gameService = new GameService();
+            gameService.StartGame();
             //Prompt for Restart? */
     }
   }

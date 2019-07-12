@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Misterybus.Project.Interfaces;
 using Misterybus.Project.Models;
@@ -10,41 +11,7 @@ namespace Misterybus.Project
     public Player CurrentPlayer { get; set; }
     private bool Running = true;
 
-    public void GetUserInput()
-    {
-
-    }
-
-    public void Go(string direction)
-    {
-
-    }
-
-    public void Help()
-    {
-
-    }
-
-    public void Inventory()
-    {
-
-    }
-
-    public void Look()
-    {
-
-    }
-
-    public void Quit()
-    {
-
-    }
-
-    public void Reset()
-    {
-
-    }
-
+    #region game setup, start, reset and input
     public void Setup()
     {
       #region setup rooms
@@ -93,7 +60,6 @@ namespace Misterybus.Project
       //TODO this button gets two descriptions so it can be on and off
       #endregion
 
-
       CurrentRoom = bus;
     }
 
@@ -101,16 +67,55 @@ namespace Misterybus.Project
     {
 
     }
+    public void Reset()
+    {
+
+    }
+    public void GetUserInput()
+    {
+
+    }
+    #endregion
+
+    #region console commands
+    public void Go(string direction)
+    {
+      CurrentRoom = (Room)CurrentRoom.Go(direction);
+    }
+
+    public void Help()
+    {
+
+    }
+
+    public void Inventory()
+    {
+
+    }
+
+    public void Look()
+    {
+
+    }
+
+    public void Quit()
+    {
+
+    }
+
+
 
     public void TakeItem(string itemName)
     {
-
+      CurrentRoom = (Room)CurrentRoom.TakeItem(itemName);
     }
 
     public void UseItem(string itemName)
     {
       //throw new System.NotImplementedException();
     }
+
+    #endregion
 
     public GameService()
     {
