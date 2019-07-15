@@ -18,10 +18,10 @@ namespace Misterybus.Project
       #region setup rooms
       Room bus = new Room("Mistery Bus", "An impossibly long bus... To the north, the windscreen is covered with a sunshade. To the south, east and west, there are exits.");
       Room hall = new Room("Hall of Memories", "A small room completely filled with blinking lights and glowing buttons...");
-      Room hq = new Room("HQ", "A large room with what appears to be some sort of master control unit on a desk...");
+      Room hq = new Room("HQ", "A large room with what appears to be some sort of master control unit on a desk. There's a phone cord on the floor that doesn't seem to be hooked up to anything. Oh, and look at that--a phone that isn't plugged in!");
       Room video = new Room("Surveillance", "Screens fill the entire front wall--one seems to show some unknown world...");
       //TODO this room gets it's own type that inherits from room. call it "fakewinroom" or whatever
-      Room doors = new Room("Hall of Doors", "A small room with numerous doors. There is a desk in the middle with several buttons.");
+      Room doors = new Room("Hall of Doors", "A small room with numerous doors. There is a desk in the middle with a giant red button on it. The door to the north has a button sized hole...");
       // TODO this room gets it's own type that inherits from room. call it "winroom" or whatever
       //Room slide = new Room("The Slide", "You're in a room with a slide that goes...");
       // TODO don't need this room because, when you push button the endgame script runs. move it to that function.
@@ -29,10 +29,10 @@ namespace Misterybus.Project
 
       #region setup items
       Item camera = new Item("Video Camera", "A barely functioning video camera.");
-      Item cord = new Item("Phone Cord", "There's a phone code on the floor that doesn't seem to be hooked up to anything.");
+      Item cord = new Item("Cord", "There's a phone cord on the floor that doesn't seem to be hooked up to anything. Oh, and look at that--a phone that isn't plugged in!");
       Item phone = new Item("Phone", "There's a phone wiht no dial tone on a desk...");
       Item thingy = new Item("Thingy", "There's a strange-looking square thingy with several electronic components on a slot in the wall.");
-      Item button = new Item("Giant Red Button", "There's a Giant Red Button on a desk. It seems like it lights up, but isn't.");
+      Item button = new Item("Button", "There's a Giant Red Button on a desk.");
       Item key = new Item("Key", "You find a key under a seat...");
       Item shade = new Item("Sunshade", "There's a sunshade covering the bus' front windshield...");
       #endregion
@@ -51,13 +51,13 @@ namespace Misterybus.Project
       #endregion
 
       #region establish items
-      bus.Items.Add(key);
-      bus.Items.Add(shade);
-      video.Items.Add(camera);
-      hq.Items.Add(cord);
-      hq.Items.Add(phone);
-      hall.Items.Add(thingy);
-      doors.Items.Add(button);
+      bus.AddItem(key);
+      bus.AddItem(shade);
+      video.AddItem(camera);
+      hq.AddItem(cord);
+      hq.AddItem(phone);
+      hall.AddItem(thingy);
+      doors.AddItem(button);
       //TODO this button gets two descriptions so it can be on and off
       #endregion
 
@@ -252,11 +252,65 @@ namespace Misterybus.Project
       }
     }
 
-    public void UseItem(string itemName /*do i need bool available */)
+    public void UseItem(string itemName)
     //TODO do this section
+    /*do i need bool available */
     {
-      // List<Item> Inventory = AvailableItems;
-      //throw new System.NotImplementedException();
+      Item usableItem = CurrentPlayer.Inventory.Find(i => i.Name.ToLower() == itemName.ToLower());
+      if (CurrentPlayer.Inventory.Contains(usableItem))
+      {
+        switch (usableItem.Name.ToLower())
+        {
+          case "button":
+            CurrentPlayer.Inventory.Remove(usableItem);
+            CurrentRoom.Items.Add(usableItem);
+            // CurrentRoom.UseItem(itemName);
+            EndGame();
+            break;
+          case "sunshade":
+            CurrentPlayer.Inventory.Remove(usableItem);
+            CurrentRoom.Items.Add(usableItem);
+            // CurrentRoom.UseItem(itemName);
+            Console.WriteLine("If you had another bus you could use it. It's no good to you here.");
+            break;
+          case "cord":
+            CurrentPlayer.Inventory.Remove(usableItem);
+            CurrentRoom.Items.Add(usableItem);
+            // CurrentRoom.UseItem(itemName);
+            LoseGame();
+            break;
+          default:
+            System.Console.WriteLine($"The stress is getting to you. You don't have a {itemName}.");
+            break;
+        }
+      }
+      else
+      {
+        System.Console.WriteLine($"{itemName} is not in your inventory");
+      }
+    }
+    public void EndGame()
+    {
+      Console.WriteLine();
+      Console.WriteLine("The door opens and a vortex appears, sucking you in and spitting you back out in your room. You coded too much and got pulled into the interwebs. But, you're back and ready to code again! You win!");
+      Thread.Sleep(6000);
+      Console.WriteLine();
+      Console.WriteLine("You won?! Yeah... Not so much... You can never win! Get ready in 5... 4... 3... 2...");
+      Thread.Sleep(5000);
+      Setup();
+      StartGame();
+    }
+
+    public void LoseGame()
+    {
+      Console.WriteLine();
+      Console.WriteLine("Thought you might call for help? Instead, the cord has been rigged and you are electrocuted. Oh, well.");
+      Thread.Sleep(6000);
+      Console.WriteLine();
+      Console.WriteLine("Good thing that on The Mistery Bus, you can never die! Get ready in 5... 4... 3... 2...");
+      Thread.Sleep(5000);
+      Setup();
+      StartGame();
     }
 
     #endregion
