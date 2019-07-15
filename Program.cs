@@ -1,5 +1,7 @@
 ﻿using System;
 using Misterybus.Project;
+using Misterybus.Project.Interfaces;
+using Misterybus.Project.Models;
 
 namespace Misterybus
 {
@@ -7,14 +9,8 @@ namespace Misterybus
   {
     public static void Main(string[] args)
     {
-      /*
-      need to do some stuff here
-      Console.Clear();
-            System.Console.WriteLine("Welcome to the Galaxy. What is your name?");
-            string name = Console.ReadLine();
-            GameService gameService = new GameService();
-            gameService.StartGame();
-            //Prompt for Restart? */
+      GameService gameService = new GameService();
+      gameService.StartGame();
     }
   }
 }
