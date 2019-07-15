@@ -17,6 +17,21 @@ namespace Misterybus.Project.Models
     //   Console.WriteLine("You're in");
     // }
 
+    public IRoom Go(string direction)
+    {
+      if (Exits.ContainsKey(direction))
+      {
+        return Exits[direction];
+      }
+      Console.WriteLine("Does not compute.");
+      return this;
+    }
+
+    public void Print()
+    {
+      Console.WriteLine(Description);
+    }
+
     public Room(string name, string description)
     {
       Name = name;

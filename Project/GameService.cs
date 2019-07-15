@@ -16,12 +16,12 @@ namespace Misterybus.Project
     public void Setup()
     {
       #region setup rooms
-      Room bus = new Room("Mistery Bus", "An impossibly long bus...");
+      Room bus = new Room("Mistery Bus", "An impossibly long bus... To the north, the windscreen is covered with a sunshade. To the south, east and west, there are exits.");
       Room hall = new Room("Hall of Memories", "A small room completely filled with blinking lights and glowing buttons...");
       Room hq = new Room("HQ", "A large room with what appears to be some sort of master control unit on a desk...");
       Room video = new Room("Surveillance", "Screens fill the entire front wall--one seems to show some unknown world...");
       //TODO this room gets it's own type that inherits from room. call it "fakewinroom" or whatever
-      Room doors = new Room("Hall of Doors", "A small room with numerous doors...");
+      Room doors = new Room("Hall of Doors", "A small room with numerous doors. There is a desk in the middle with several buttons.");
       // TODO this room gets it's own type that inherits from room. call it "winroom" or whatever
       //Room slide = new Room("The Slide", "You're in a room with a slide that goes...");
       // TODO don't need this room because, when you push button the endgame script runs. move it to that function.
@@ -79,7 +79,7 @@ namespace Misterybus.Project
             `--'             `--'
       ";
       Console.WriteLine(title);
-      Thread.Sleep(2000);
+      Thread.Sleep(1200);
       Console.WriteLine("THOUGH, YOU AREN'T HERE BY CHOICE...");
       Console.WriteLine();
       Thread.Sleep(1000);
@@ -89,14 +89,16 @@ namespace Misterybus.Project
       Console.WriteLine();
       Console.WriteLine($"Abandon hope, {playerName}. Resistance, as they say, is futile.");
       Console.WriteLine();
+      Console.WriteLine(CurrentRoom.Description);
+      Console.WriteLine();
+      Console.WriteLine("Enter 'help' if you're stuck.");
 
       while (Playing)
       {
         IRoom currentRoom = CurrentRoom;
-        Console.WriteLine($@"Current location:
-        {currentRoom.Name.ToUpper()}.");
-        Console.WriteLine();
-        Help();
+        // Console.WriteLine($@"Current location:
+        // {currentRoom.Name.ToUpper()}.");
+        // Console.WriteLine();
         GetUserInput();
       }
     }
@@ -154,6 +156,9 @@ namespace Misterybus.Project
         case "reset":
           Reset();
           break;
+        case "help":
+          Help();
+          break;
         case "take":
           // if (itemName == "shade" && CurrentRoom.Name == "bus")
           // {
@@ -166,22 +171,16 @@ namespace Misterybus.Project
     #endregion
 
     #region console commands
-    // public void Go(string direction)
-    //TODO check this and finish
-    // {
-    //   CurrentRoom = (Room)CurrentRoom.Go(direction);
-    // }
-    // {
-    //   if (Exits.ContainsKey(direction))
-    //   {
-    //     return Exits[direction];
-    //   }
-    //   Console.WriteLine("Does not compute.");
-    //   return this;
-    // }
+    public void Go(string direction)
+    {
+      Console.Clear();
+      Room dest = (Room)CurrentRoom.Go(direction);
+      CurrentRoom = dest;
+      CurrentRoom.Print();
+    }
+
     public void Help()
     {
-      // Console.Clear();
       Console.WriteLine(@"No shame in asking for help... 
        go: Oh the places you can go.
        take: If you want it, take it. 
@@ -203,8 +202,6 @@ namespace Misterybus.Project
       {
         Console.WriteLine($"Here's what you have: {item.Name}");
       }
-      Console.WriteLine("Press enter to continue your journey to freedom(?!).");
-      Console.ReadLine();
     }
 
     public void Look()
@@ -214,7 +211,6 @@ namespace Misterybus.Project
     }
 
     public void Quit()
-    //TODO make this more robust?
     {
       Playing = false;
       // Console.WriteLine("The Matrix has won! Good-bye.");
@@ -261,11 +257,6 @@ namespace Misterybus.Project
     {
       // List<Item> Inventory = AvailableItems;
       //throw new System.NotImplementedException();
-    }
-
-    public void Go(string direction)
-    {
-      throw new NotImplementedException();
     }
 
     #endregion
